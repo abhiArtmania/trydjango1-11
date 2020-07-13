@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <body>
+      {% if UserExist %}
+        <h1>User Information:</h1>
+        <p>My name is {{username}}</p>
+        <p>This is random number - {{age}}</p>
+        {% if age|divisibleby:"2" %}
+          <p>Age id even</p>
+        {% endif %}
+      {% else %}
+        <p>No User Found</p>
+      {% endif %}
+
+      <h1>Family members:</h1>
+      {% if familyMembers %}
+      <ul>
+        {% for members in familyMembers %}
+          <li key="{{members}}">{{members}}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+    </body>
+  </head>
+</html>
