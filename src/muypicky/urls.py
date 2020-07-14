@@ -27,5 +27,7 @@ urlpatterns = [
     url(r'^stringSubtution/',views.stringSubtution),
     url(r'^$',views.home),
     url(r'^about/',views.about),
-    url(r'^contact/',views.contact)
+    #url(r'^contact/',views.contact)
+    url(r'^contact/(?P<id>\d+)/', views.ContactView.as_view())
+    #url(r'^contact/', views.ContactTemplateView.as_view())
 ]
