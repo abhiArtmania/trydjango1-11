@@ -6,16 +6,16 @@
         Django 1.11
       {% endblock %}
     </title>
+    {% include 'snippets/css.html' %}
   </head>
     <body>
-      <h1>Django 1.11</h1>
-      <a href='/'>Home</a>
-      <a href='/about'>About</a>
-      <a href='/contact'>Contact</a>
       <div class='container'>
+        <h1>Django 1.11</h1>
+        {% include 'snippets/nav.html' %}
         {% block content %}
-          Supper content
+          <div>Supper content</div>
         {% endblock content%}
     </div>
+    {% include 'snippets/js.html' %}
     </body>
 </html>
