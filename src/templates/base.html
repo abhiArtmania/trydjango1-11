@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html lang=en>
   <head>
-    <body>
-      {% if UserExist %}
-        <h1>User Information:</h1>
-        <p>My name is {{username}}</p>
-        <p>This is random number - {{age}}</p>
-        {% if age|divisibleby:"2" %}
-          <p>Age id even</p>
-        {% endif %}
-      {% else %}
-        <p>No User Found</p>
-      {% endif %}
-
-      <h1>Family members:</h1>
-      {% if familyMembers %}
-      <ul>
-        {% for members in familyMembers %}
-          <li key="{{members}}">{{members}}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-
-    </body>
+    <title>
+      {% block title %}
+        Django 1.11
+      {% endblock %}
+    </title>
   </head>
+    <body>
+      <h1>Django 1.11</h1>
+      <a href='/'>Home</a>
+      <a href='/about'>About</a>
+      <a href='/contact'>Contact</a>
+      <div class='container'>
+        {% block content %}
+          Supper content
+        {% endblock content%}
+    </div>
+    </body>
 </html>

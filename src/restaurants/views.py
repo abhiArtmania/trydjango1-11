@@ -42,5 +42,11 @@ def home(request):
     'age':num,
     'familyMembers':['Ashish','Shashikala','Ashok']
     }
-    return render(request,'base.html',context)
+    return render(request,'home.html',context)
     # render(request,templatename,pythonDictionary)
+
+def about(request):
+    return render(request,'about.html',{})
+
+def contact(request):
+    return render(request,'contact.html',{})
