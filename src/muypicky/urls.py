@@ -22,12 +22,7 @@ from restaurants import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^string/',views.string),
-    url(r'^simpleHtml/',views.simpleHtml),
-    url(r'^stringSubtution/',views.stringSubtution),
-    url(r'^$',views.home),
-    url(r'^about/',views.about),
-    #url(r'^contact/',views.contact)
-    url(r'^contact/(?P<id>\d+)/', views.ContactView.as_view())
-    #url(r'^contact/', views.ContactTemplateView.as_view())
+    url(r'^$', views.HomeView.as_view()),
+    url(r'^about/', views.AboutView.as_view()),
+    url(r'^contact/', views.ContactView.as_view())
 ]
