@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+  {% block title %}
+    Restaurant List | {{block.super}}
+  {% endblock %}
+  {% block content %}
+    <h1>{{ object.name }}</h1>
+    <p><small>{{ object.location }}</small></p>
+    <p><small>{{ object.timestamp }}</small></p>
+    <p><small>{{ object.updatedAt|timesince }} ago</small></p>
+  {% endblock %}

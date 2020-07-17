@@ -22,7 +22,8 @@ from schools.views import (
     ContactView,
     # school_list,
     # SchoolListView,
-    SearchSchoolListView
+    SearchSchoolListView,
+    SearchSchoolDetailView
 )
 
 urlpatterns = [
@@ -31,5 +32,6 @@ urlpatterns = [
     url(r'^about/', AboutView.as_view()),
     url(r'^contact/', ContactView.as_view()),
     url(r'^school_list_search/$',SearchSchoolListView.as_view()),
-    url(r'^school_list_search/(?P<location>\w+)/$',SearchSchoolListView.as_view())
+    # url(r'^school_list_search/(?P<location>\w+)/$',SearchSchoolListView.as_view()),
+    url(r'^school_list_search/(?P<school_id>\w+)/$',SearchSchoolDetailView.as_view())
 ]
