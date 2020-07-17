@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_save, post_save
+from .utils import unique_slug_generator
 
 # Create your models here.
 class School(models.Model):
@@ -15,3 +17,18 @@ class School(models.Model):
     # title = name
     def title(self):
         return self.name
+
+def school_pre_save_receiver(sender, instance, *args, **kwargs):
+     print('Saving...')
+     print(instance.timestamp)
+     if not instance.slug:
+         instance.slug = unique_slug_generator(instance)
+         instance.save()
+
+def school_post_save_receiver(sender, instance, created, *args, **kwargs):
+    print('Saved')
+    print(instance.timestamp)
+    print(created)
+
+pre_save.connect(school_pre_save_receiver, sender=School)
+post_save.connect(school_post_save_receiver, sender=School)
