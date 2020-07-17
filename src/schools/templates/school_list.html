@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+  {% block title %}
+    Restaurant List | {{block.super}}
+  {% endblock %}
+  {% block content %}
+    <h1>School List</h1>
+
+    <ul>
+      {% if school %}
+        {% for rest in school %}
+          <li>{{rest.name}} {{rest.location}} {{rest.timestamp}} {{rest.updatedAt}}</li>
+        {% endfor %}
+      {% else %}
+        <li>No school found</li>
+      {% endif %}
+    </ul>
+  {% endblock %}

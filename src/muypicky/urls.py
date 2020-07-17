@@ -16,11 +16,20 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from schools import views
+from schools.views import (
+    HomeView,
+    AboutView,
+    ContactView,
+    # school_list,
+    # SchoolListView,
+    SearchSchoolListView
+)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.HomeView.as_view()),
-    url(r'^about/', views.AboutView.as_view()),
-    url(r'^contact/', views.ContactView.as_view())
+    url(r'^$', HomeView.as_view()),
+    url(r'^about/', AboutView.as_view()),
+    url(r'^contact/', ContactView.as_view()),
+    url(r'^school_list_search/$',SearchSchoolListView.as_view()),
+    url(r'^school_list_search/(?P<location>\w+)/$',SearchSchoolListView.as_view())
 ]
