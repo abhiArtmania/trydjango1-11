@@ -32,4 +32,4 @@ def school_pre_save_receiver(sender, instance, *args, **kwargs):
 #     print(created)
 
 pre_save.connect(school_pre_save_receiver, sender=School)
-post_save.connect(school_post_save_receiver, sender=School)
+# post_save.connect(school_post_save_receiver, sender=School)
