@@ -25,10 +25,11 @@ def school_pre_save_receiver(sender, instance, *args, **kwargs):
          instance.slug = unique_slug_generator(instance)
          instance.save()
 
-def school_post_save_receiver(sender, instance, created, *args, **kwargs):
-    print('Saved')
-    print(instance.timestamp)
-    print(created)
+##### we can't save slug in post_save. It will goes under infinite loop. that's why I'm commenting this.
+# def school_post_save_receiver(sender, instance, created, *args, **kwargs):
+#     print('Saved')
+#     print(instance.timestamp)
+#     print(created)
 
 pre_save.connect(school_pre_save_receiver, sender=School)
 post_save.connect(school_post_save_receiver, sender=School)
