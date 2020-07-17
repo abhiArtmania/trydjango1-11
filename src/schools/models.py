@@ -6,7 +6,12 @@ class School(models.Model):
     location = models.CharField(max_length=120, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(null=True,blank=True)
 
     # Change the objectname with name of school (in django admin)
     def __str__(self):
+        return self.name
+
+    # title = name
+    def title(self):
         return self.name
