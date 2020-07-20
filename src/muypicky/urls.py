@@ -23,7 +23,8 @@ from schools.views import (
     # school_list,
     # SchoolListView,
     SearchSchoolListView,
-    SearchSchoolDetailView
+    SearchSchoolDetailView,
+    School_createView
 )
 
 urlpatterns = [
@@ -31,7 +32,8 @@ urlpatterns = [
     url(r'^$', HomeView.as_view()),
     url(r'^about/', AboutView.as_view()),
     url(r'^contact/', ContactView.as_view()),
-    url(r'^school_list_search/$',SearchSchoolListView.as_view()),
-    # url(r'^school_list_search/(?P<location>\w+)/$',SearchSchoolListView.as_view()),
-    url(r'^school_list_search/(?P<school_id>\w+)/$',SearchSchoolDetailView.as_view())
+    url(r'^school/$',SearchSchoolListView.as_view()),
+    url(r'^school/create/$',School_createView),
+    # url(r'^school/(?P<location>\w+)/$',SearchSchoolListView.as_view()),
+    url(r'^school/(?P<slug>[\w-]+)/$',SearchSchoolDetailView.as_view())
 ]

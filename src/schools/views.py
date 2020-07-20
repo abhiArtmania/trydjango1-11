@@ -1,8 +1,9 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, ListView, DetailView
 from .models import School
+from .form import SchoolCreateForm
 import random
 
 # Create your views here.
@@ -47,6 +48,21 @@ def school_list(request):
 #         context['school'] = queryset
 #         return context
 
+# School create view
+def School_createView(request):
+    if request.method == "POST":
+        title = request.POST.get("name") # request.POST['name']
+        location = request.POST.get("location")
+        print(School.objects.count())
+        School.objects.create(
+            name = title,
+            location = location
+        )
+        return HttpResponseRedirect('/school/')
+    template_name = 'schools/form.html'
+    context = {}
+    return render(request, template_name, context)
+
 class SearchSchoolListView(ListView):
     template_name = '/schools/school_list.html'
     model = School
@@ -78,7 +94,7 @@ class SearchSchoolDetailView(DetailView):
 
     # change the default object - pk/slug to your custom object name.
     # here my custom object name = school_id
-    def get_object(self,*args,**kwargs):
-        school_id = self.kwargs['school_id']
-        obj = get_object_or_404(School, pk=school_id) #pk = school_id
-        return obj
+    # def get_object(self,*args,**kwargs):
+    #     school_id = self.kwargs['school_id']
+    #     obj = get_object_or_404(School, pk=school_id) #pk = school_id
+    #     return obj

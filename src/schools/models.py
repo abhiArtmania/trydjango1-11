@@ -19,11 +19,8 @@ class School(models.Model):
         return self.name
 
 def school_pre_save_receiver(sender, instance, *args, **kwargs):
-     print('Saving...')
-     print(instance.timestamp)
      if not instance.slug:
          instance.slug = unique_slug_generator(instance)
-         instance.save()
 
 ##### we can't save slug in post_save. It will goes under infinite loop. that's why I'm commenting this.
 # def school_post_save_receiver(sender, instance, created, *args, **kwargs):

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+  {% block title %}
+    New School | {{block.super}}
+  {% endblock %}
+  {% block content %}
+    <h1>Add new school:</h1>
+    <form method='POST'> {% csrf_token %}
+      <input type='text' name='name' placeholder="School Name" /><br/>
+      <input type='text' name='location' placeholder="Location" /><br/>
+      <button type='submit'>Save</button>
+    </form>
+  {% endblock %}
