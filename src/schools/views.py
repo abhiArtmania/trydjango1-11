@@ -53,6 +53,7 @@ def School_createView(request):
     form = SchoolCreateForm(request.POST or None)
     errors = None
     if form.is_valid():
+        form.save()
         School.objects.create(
             name = form.cleaned_data.get('name'),
             location = form.cleaned_data.get('location')

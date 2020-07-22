@@ -1,4 +1,5 @@
 from django import forms
+# from .models import School
 
 class SchoolCreateForm(forms.Form):
     name = forms.CharField()
@@ -9,3 +10,11 @@ class SchoolCreateForm(forms.Form):
         if name == 'Name':
             raise forms.ValidationError("Not a valid name")
         return name
+
+# class SchoolCreateForm(forms.ModelForm):
+#     class Meta:
+#         model = School
+#         fields = [
+#             'name',
+#             'location'
+#         ]
