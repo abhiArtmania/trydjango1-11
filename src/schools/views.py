@@ -50,17 +50,18 @@ def school_list(request):
 
 # School create view
 def School_createView(request):
-    if request.method == "POST":
-        title = request.POST.get("name") # request.POST['name']
-        location = request.POST.get("location")
-        print(School.objects.count())
+    form = SchoolCreateForm(request.POST or None)
+    errors = None
+    if form.is_valid():
         School.objects.create(
-            name = title,
-            location = location
+            name = form.cleaned_data.get('name'),
+            location = form.cleaned_data.get('location')
         )
         return HttpResponseRedirect('/school/')
+    if form.errors:
+        errors = form.errors
     template_name = 'schools/form.html'
-    context = {}
+    context = {"form":form, "errors":errors}
     return render(request, template_name, context)
 
 class SearchSchoolListView(ListView):
