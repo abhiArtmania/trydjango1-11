@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from .models import School
 from .form import SchoolCreateForm
 import random
@@ -48,23 +48,6 @@ def school_list(request):
 #         context['school'] = queryset
 #         return context
 
-# School create view
-def School_createView(request):
-    form = SchoolCreateForm(request.POST or None)
-    errors = None
-    if form.is_valid():
-        form.save()
-        School.objects.create(
-            name = form.cleaned_data.get('name'),
-            location = form.cleaned_data.get('location')
-        )
-        return HttpResponseRedirect('/school/')
-    if form.errors:
-        errors = form.errors
-    template_name = 'schools/form.html'
-    context = {"form":form, "errors":errors}
-    return render(request, template_name, context)
-
 class SearchSchoolListView(ListView):
     template_name = '/schools/school_list.html'
     model = School
@@ -100,3 +83,30 @@ class SearchSchoolDetailView(DetailView):
     #     school_id = self.kwargs['school_id']
     #     obj = get_object_or_404(School, pk=school_id) #pk = school_id
     #     return obj
+
+
+# School create view in containing too many lines
+# def School_createView(request):
+#     form = SchoolCreateForm(request.POST or None)
+#     errors = None
+#     if form.is_valid():
+#         # Customization
+#         # Like a pre_save
+#         form.save()
+#         # Like a post_save
+#         # School.objects.create(
+#         #     name = form.cleaned_data.get('name'),
+#         #     location = form.cleaned_data.get('location')
+#         # )
+#         return HttpResponseRedirect('/school/')
+#     if form.errors:
+#         errors = form.errors
+#     template_name = 'schools/form.html'
+#     context = {"form":form, "errors":errors}
+#     return render(request, template_name, context)
+
+# School create view in les number of lines
+class School_createView(CreateView):
+    template_name = 'schools/form.html'
+    form_class = SchoolCreateForm
+    success_url = '/school/'
