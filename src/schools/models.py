@@ -1,11 +1,12 @@
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 from .utils import unique_slug_generator
+from .validators import validate_name, validate_location
 
 # Create your models here.
 class School(models.Model):
-    name = models.CharField(max_length=120)
-    location = models.CharField(max_length=120, null=True, blank=True)
+    name = models.CharField(max_length=120, validators=[validate_name])
+    location = models.CharField(max_length=120, null=True, blank=True, validators=[validate_location])
     timestamp = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
     slug = models.SlugField(null=True,blank=True)
@@ -19,6 +20,7 @@ class School(models.Model):
         return self.name
 
 def school_pre_save_receiver(sender, instance, *args, **kwargs):
+     instance.location = instance.location.capitalize()
      if not instance.slug:
          instance.slug = unique_slug_generator(instance)
 

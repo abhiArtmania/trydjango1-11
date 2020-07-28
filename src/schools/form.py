@@ -1,5 +1,6 @@
 from django import forms
 from .models import School
+# from .validators import validate_name, validate_location
 
 # class SchoolCreateForm(forms.Form):
 #     name = forms.CharField()
@@ -18,9 +19,3 @@ class SchoolCreateForm(forms.ModelForm):
             'name',
             'location'
         ]
-
-    def clean_name(self):
-        name = self.cleaned_data.get('name')
-        if name == 'Name':
-            raise forms.ValidationError("Not a valid name")
-        return name
