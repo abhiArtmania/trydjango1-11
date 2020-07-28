@@ -85,28 +85,27 @@ class SearchSchoolDetailView(DetailView):
     #     return obj
 
 
-# School create view in containing too many lines
-# def School_createView(request):
-#     form = SchoolCreateForm(request.POST or None)
-#     errors = None
-#     if form.is_valid():
-#         # Customization
-#         # Like a pre_save
-#         form.save()
-#         # Like a post_save
-#         # School.objects.create(
-#         #     name = form.cleaned_data.get('name'),
-#         #     location = form.cleaned_data.get('location')
-#         # )
-#         return HttpResponseRedirect('/school/')
-#     if form.errors:
-#         errors = form.errors
-#     template_name = 'schools/form.html'
-#     context = {"form":form, "errors":errors}
-#     return render(request, template_name, context)
-
-# School create view in les number of lines
-class School_createView(CreateView):
+# School create view in containing too many lines (function based view)
+def School_createView(request):
+    form = SchoolCreateForm(request.POST or None)
+    errors = None
+    if form.is_valid():
+        if request.user.is_authenticated():
+            instance = form.save(commit=False)
+            instance.owner = request.user
+            instance.save()
+            # Like a post_save
+            return HttpResponseRedirect('/school/')
+        else:
+            return HttpResponseRedirect('/login/')
+    if form.errors:
+        errors = form.errors
     template_name = 'schools/form.html'
-    form_class = SchoolCreateForm
-    success_url = '/school/'
+    context = {"form":form, "errors":errors}
+    return render(request, template_name, context)
+
+# School create view in les number of lines (class based view)
+# class School_createView(CreateView):
+#     template_name = 'schools/form.html'
+#     form_class = SchoolCreateForm
+#     success_url = '/school/'
