@@ -86,26 +86,31 @@ class SearchSchoolDetailView(DetailView):
 
 
 # School create view in containing too many lines (function based view)
-def School_createView(request):
-    form = SchoolCreateForm(request.POST or None)
-    errors = None
-    if form.is_valid():
-        if request.user.is_authenticated():
-            instance = form.save(commit=False)
-            instance.owner = request.user
-            instance.save()
-            # Like a post_save
-            return HttpResponseRedirect('/school/')
-        else:
-            return HttpResponseRedirect('/login/')
-    if form.errors:
-        errors = form.errors
-    template_name = 'schools/form.html'
-    context = {"form":form, "errors":errors}
-    return render(request, template_name, context)
+# def School_createView(request):
+#     form = SchoolCreateForm(request.POST or None)
+#     errors = None
+#     if form.is_valid():
+#         if request.user.is_authenticated():
+#             instance = form.save(commit=False)
+#             instance.owner = request.user
+#             instance.save()
+#             # Like a post_save
+#             return HttpResponseRedirect('/school/')
+#         else:
+#             return HttpResponseRedirect('/login/')
+#     if form.errors:
+#         errors = form.errors
+#     template_name = 'schools/form.html'
+#     context = {"form":form, "errors":errors}
+#     return render(request, template_name, context)
 
 # School create view in les number of lines (class based view)
-# class School_createView(CreateView):
-#     template_name = 'schools/form.html'
-#     form_class = SchoolCreateForm
-#     success_url = '/school/'
+class School_createView(CreateView):
+    template_name = 'schools/form.html'
+    form_class = SchoolCreateForm
+    success_url = '/school/'
+
+    def form_valid(self,form):
+        instance = form.save(commit=False)
+        instance.owner = self.request.user
+        return super(School_createView,self).form_valid(form)

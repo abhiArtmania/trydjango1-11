@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^about/', AboutView.as_view()),
     url(r'^contact/', ContactView.as_view()),
     url(r'^school/$',SearchSchoolListView.as_view()),
-    url(r'^school/create/$',School_createView), #.as_view()), # 'as_view' is only if 'School_createView' will be of class type
+    url(r'^school/create/$',School_createView.as_view()), # 'as_view' is only if 'School_createView' will be of class type
     # url(r'^school/(?P<location>\w+)/$',SearchSchoolListView.as_view()),
     url(r'^school/(?P<slug>[\w-]+)/$',SearchSchoolDetailView.as_view())
 ]
