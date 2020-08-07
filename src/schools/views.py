@@ -2,6 +2,7 @@ from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import School
 from .form import SchoolCreateForm
 import random
@@ -105,7 +106,8 @@ class SearchSchoolDetailView(DetailView):
 #     return render(request, template_name, context)
 
 # School create view in les number of lines (class based view)
-class School_createView(CreateView):
+class School_createView(LoginRequiredMixin,CreateView):
+    login_url = '/login/'                                  # You can also set the default login url in local.py
     template_name = 'schools/form.html'
     form_class = SchoolCreateForm
     success_url = '/school/'
