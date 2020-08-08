@@ -9,7 +9,9 @@
       {% if school %}
         {% for sch in school %}
           <li>
-            <a href='/school/{{ sch.slug }}/'>{{ sch.name }}</a><br/>
+            <!-- <a href='{% url "schools:detail" slug=sch.slug %}'>{{ sch.name }}</a> -->
+            <a href='{{ sch.get_absolute_url }}'>{{ sch.name }}</a>
+            <br/>
             {{sch.name}} {{sch.location}} {{sch.timestamp}} {{sch.updatedAt}}</li>
         {% endfor %}
       {% else %}

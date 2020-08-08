@@ -3,6 +3,7 @@ from django.db.models.signals import pre_save, post_save
 from .utils import unique_slug_generator
 from .validators import validate_name, validate_location
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 User = settings.AUTH_USER_MODEL
 
@@ -18,6 +19,9 @@ class School(models.Model):
     # Change the objectname with name of school (in django admin)
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('schools:detail', kwargs={'slug':self.slug})
 
     # title = name
     def title(self):

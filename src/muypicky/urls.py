@@ -13,29 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.views import LoginView
 
 from schools.views import (
     HomeView,
     AboutView,
-    ContactView,
-    # school_list,
-    # SchoolListView,
-    SearchSchoolListView,
-    SearchSchoolDetailView,
-    School_createView
+    ContactView
 )
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', HomeView.as_view()),
+    url(r'^$', HomeView.as_view(), name='home'),
     url(r'^login/$', LoginView.as_view(), name='login'),
-    url(r'^about/', AboutView.as_view()),
-    url(r'^contact/', ContactView.as_view()),
-    url(r'^school/$',SearchSchoolListView.as_view()),
-    url(r'^school/create/$',School_createView.as_view()), # 'as_view' is only if 'School_createView' will be of class type
-    # url(r'^school/(?P<location>\w+)/$',SearchSchoolListView.as_view()),
-    url(r'^school/(?P<slug>[\w-]+)/$',SearchSchoolDetailView.as_view())
+    url(r'^about/', AboutView.as_view(), name='about'),
+    url(r'^contact/', ContactView.as_view(), name='contact'),
+    url(r'^school/', include('schools.urls',namespace='schools'))
 ]

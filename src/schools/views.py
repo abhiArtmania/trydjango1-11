@@ -110,7 +110,7 @@ class School_createView(LoginRequiredMixin,CreateView):
     login_url = '/login/'                                  # You can also set the default login url in local.py
     template_name = 'schools/form.html'
     form_class = SchoolCreateForm
-    success_url = '/school/'
+    # success_url = '/school/'
 
     def form_valid(self,form):
         instance = form.save(commit=False)
