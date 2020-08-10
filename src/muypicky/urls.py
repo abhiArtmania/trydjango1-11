@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^about/', AboutView.as_view(), name='about'),
     url(r'^contact/', ContactView.as_view(), name='contact'),
-    url(r'^school/', include('schools.urls',namespace='schools'))
+    url(r'^school/', include('schools.urls',namespace='schools')),
+    url(r'^items/', include('menus.urls',namespace='menus'))
 ]

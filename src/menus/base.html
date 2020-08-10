@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <title>
+      {% block title %}
+        Django 1.11
+      {% endblock %}
+    </title>
+    {% include 'snippets/css.html' %}
+  </head>
+    <body>
+      <div class='container'>
+        <h1>Django 1.11</h1>
+        {% include 'snippets/nav.html' %}
+        <div class='pag-container'>
+          {% block content %}
+            <div>Supper content</div>
+          {% endblock content%}
+        </div>
+    </div>
+    {% include 'snippets/js.html' %}
+    </body>
+</html>
