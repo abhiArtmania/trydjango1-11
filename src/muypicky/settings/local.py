@@ -54,6 +54,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'muypicky.urls'
 # LOGIN_URL = '/login/'                 # You can also set the login url for different views separately.
+LOGIN_REDIRECT_URL = '/school/'
 
 TEMPLATES = [
     {

@@ -3,7 +3,7 @@
     School List | {{block.super}}
   {% endblock %}
   {% block content %}
-    <h1>School List</h1>
+      <h1>My Schools <small style="font-size:15px;"><a href='{% url "schools:create" %}'>Add New</a></small></h1>
 
     <ul>
       {% if school %}
@@ -15,7 +15,7 @@
             {{sch.name}} {{sch.location}} {{sch.timestamp}} {{sch.updatedAt}}</li>
         {% endfor %}
       {% else %}
-        <li>No school found</li>
+        <li><a href='{% url "schools:create" %}'>Add One</a></li>
       {% endif %}
     </ul>
   {% endblock %}

@@ -3,14 +3,6 @@
     New School | {{block.super}}
   {% endblock %}
   {% block content %}
-    <h1>Add new school:</h1>
-    {% if errors %}
-      {{ errors }}
-    {% endif %}
-    <form method='POST'> {% csrf_token %}
-      {{ form.as_p }}
-      <!-- <input type='text' name='name' placeholder="School Name" /><br/>
-      <input type='text' name='location' placeholder="Location" /><br/> -->
-      <button type='submit'>Save</button>
-    </form>
+    <h1>{{ title }}</h1>
+    {% include 'snippets/form-snippet.html' %}
   {% endblock %}

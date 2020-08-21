@@ -1,10 +1,11 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import School
 from .form import SchoolCreateForm
+from django.contrib.auth import logout
 import random
 
 # Create your views here.
@@ -31,13 +32,13 @@ class AboutView(TemplateView):
 class ContactView(TemplateView):
     template_name = 'contact.html'
 
-def school_list(request):
-    template_name = '/schools/school_list.html'
-    queryset = School.objects.all()
-    context = {
-        "school":queryset
-    }
-    return render(request,template_name,context)
+# def school_list(request):
+#     template_name = '/schools/school_list.html'
+#     queryset = School.objects.all()
+#     context = {
+#         "school":queryset
+#     }
+#     return render(request,template_name,context)
 
 # class SchoolListView(ListView):
 #     model = School
@@ -49,31 +50,21 @@ def school_list(request):
 #         context['school'] = queryset
 #         return context
 
-class SearchSchoolListView(ListView):
-    template_name = '/schools/school_list.html'
+class SearchSchoolListView(LoginRequiredMixin, ListView):
     model = School
     def get_context_data(self,*args, **kwargs):
-        print(bool(self.kwargs))
-        if bool(self.kwargs):
-            location = self.kwargs['location']
-        else:
-            location = None
-        if location:
-            # query to filter objects on location basis (not case-sensitive)
-            queryset = School.objects.filter(location__iexact=location)
-            # query to filter objects on location basis or name that contains 'Arya' character
-            # queryset = School.objects.filter(
-            #     Q(location__iexact=location) | Q(name__icontains='Arya')
-            # )
-        else:
-            queryset = School.objects.all()
+        queryset = School.objects.filter(owner=self.request.user)
         context = super(SearchSchoolListView,self).get_context_data(*args, **kwargs)
         context['school'] = queryset
         return context
 
-class SearchSchoolDetailView(DetailView):
-    queryset = School.objects.all()
-
+class SearchSchoolDetailView(LoginRequiredMixin, DetailView):
+    model = School
+    def get_context_data(self,*args, **kwargs):
+        queryset = School.objects.filter(owner=self.request.user)
+        context = super(SearchSchoolDetailView,self).get_context_data(*args,**kwargs)
+        context['school']=queryset
+        return context
     # def get_context_data(self, *args, **kwargs):
     #     context = super(SearchSchoolDetailView,self).get_context_data(*args, **kwargs)
     #     return context
@@ -110,9 +101,30 @@ class School_createView(LoginRequiredMixin,CreateView):
     login_url = '/login/'                                  # You can also set the default login url in local.py
     template_name = 'schools/form.html'
     form_class = SchoolCreateForm
-    # success_url = '/school/'
 
     def form_valid(self,form):
         instance = form.save(commit=False)
         instance.owner = self.request.user
         return super(School_createView,self).form_valid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(School_createView,self).get_context_data(*args, **kwargs)
+        context['title'] = 'Add School'
+        return context
+
+class School_updateView(LoginRequiredMixin,UpdateView):
+    model = School
+    login_url = '/login/'                                  # You can also set the default login url in local.py
+    template_name = 'schools/detail-update.html'
+    form_class = SchoolCreateForm
+
+    def get_context_data(self,*args,**kwargs):
+        context = super(School_updateView,self).get_context_data(*args,**kwargs)
+        name = self.get_object().name
+        context['title'] = f'Update School: {name}'
+        return context
+
+class LogoutUser(TemplateView):
+    template_name = 'home.html'
+    def get_context_data(self,*args,**kwargs):
+        logout(self.request)
