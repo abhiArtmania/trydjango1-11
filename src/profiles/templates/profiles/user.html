@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block head_title %}
+  {{ user.username }} | {{block.super}}
+{% endblock head_title %}
+{% block content %}
+<h1>{{title}}</h1>
+<hr/>
+{% if user.school_set.all.exists %}
+{% for school in user.school_set.all %}
+  <p>
+    <b>School:</b>
+  <li>
+    <b>{{school.name}}</b> |
+    {{school.location}}
+  </li>
+  <ul>
+    {% for item in school.item_set.all %}
+      <li>{{item.name}}</li>
+        {% for content in item.get_contents %}
+          <span style='margin-right:4px; background:gray;'>{{content}}</span>
+        {% endfor %}
+    {% endfor %}
+  </ul>
+</p>
+{% endfor %}
+{% else %}
+  <p class='lead'>No School Found</p>
+{% endif %}
+
+{% endblock %}
