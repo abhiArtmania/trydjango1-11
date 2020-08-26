@@ -3,24 +3,70 @@
   {{ user.username }} | {{block.super}}
 {% endblock head_title %}
 {% block content %}
-<h1>{{title}}</h1>
+<h3>User: {{title}}</h3>
+<form class='form search-form' method="GET" action='.'>
+  <input type='text' placeholder="Search..." name='searchText' value='{{request.GET.searchText}}'/>
+  <button class="btn btn-primary search-button" type="submit">Search</button>
+  <a class="btn btn-secondary clear-button" href='{{request.path}}'>Clear</a>
+</form>
 <hr/>
-{% if user.school_set.all.exists %}
-{% for school in user.school_set.all %}
-  <p>
-    <b>School:</b>
-  <li>
-    <b>{{school.name}}</b> |
-    {{school.location}}
-  </li>
-  <ul>
-    {% for item in school.item_set.all %}
-      <li>{{item.name}}</li>
-        {% for content in item.get_contents %}
-          <span style='margin-right:4px; background:gray;'>{{content}}</span>
-        {% endfor %}
-    {% endfor %}
-  </ul>
+{% if schools %}
+{% for school in schools %}
+  <div class='row'>
+    <div class="col-sm-12">
+      <div class='card card-default' style='padding:10px;'>
+        <span><b>School name</b> : <a href="{{request.path}}?searchText={{school.name}}">{{school.name}}</a></span>
+        <span><b>Location</b> : {{school.location}}</span>
+        <p>
+          <b>Canteens:</b>
+          <ul>
+            {% for item in school.item_set.all %}
+              <li>{{item.name}}</li>
+              <p>
+                <div id="accordion">
+                  <div class="card">
+                    <div class="card-header" id="heading-contain-{{item.name}}">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-contain-{{item.name}}" aria-expanded="true" aria-controls="collapse-contain-{{item.name}}">
+                          Items in stock
+                        </button>
+                      </h5>
+                    </div>
+
+                    <div id="collapse-contain-{{item.name}}" class="collapse show" aria-labelledby="heading-contain-{{item.name}}" data-parent="#accordion">
+                      <div class="card-body">
+                        {% for content in item.get_contents %}
+                          <span class='badge badge-success'>
+                            <a href="{{request.path}}?searchText={{content}}">{{content}}</a>
+                          </span>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-header" id="heading-exclude-{{item.name}}">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-exclude-{{item.name}}" aria-expanded="false" aria-controls="collapse-exclude-{{item.name}}">
+                          Items out of stock
+                        </button>
+                      </h5>
+                    </div>
+                    <div id="collapse-exclude-{{item.name}}" class="collapse" aria-labelledby="heading-exclude-{{item.name}}" data-parent="#accordion">
+                      <div class="card-body">
+                        {% for exclude in item.get_excludes %}
+                          <span class='badge badge-danger'>{{exclude}}</span>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p>
+            {% endfor %}
+          </ul>
+        </p>
+      </div>
+    </div>
+  </div>
 </p>
 {% endfor %}
 {% else %}

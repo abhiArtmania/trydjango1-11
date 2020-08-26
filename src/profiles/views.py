@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
 from django.contrib.auth import get_user_model
 from django.http import Http404
+from schools.models import School
+from menus.models import Item
 
 User = get_user_model()
 
@@ -15,6 +17,15 @@ class ProfileDetailView(DetailView):
 
     def get_context_data(self,*args,**kwargs):
         context = super(ProfileDetailView,self).get_context_data(*args,**kwargs)
-        name = self.get_object().username
+        owner = self.get_object()
+        name = owner.username
+        query = self.request.GET.get('searchText')
+        qs = School.objects.filter(owner=owner).search(query.strip()) # strip function remove the void space from left and right.
+        # item_exists = Item.objects.filter(user=owner).exists()
         context['title'] = f'{name}'
+        # if query:
+        #     # qs = School.objects.search(query)
+        #     qs = qs.search(query)
+        if qs.exists():
+            context['schools'] = qs
         return context

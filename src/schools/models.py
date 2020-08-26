@@ -7,7 +7,23 @@ from django.core.urlresolvers import reverse
 
 User = settings.AUTH_USER_MODEL
 
-# Create your models here.
+class SchoolQuerySet(models.query.QuerySet):
+    def search(self,query):
+        if query:
+            Q = models.Q
+            return self.filter(
+                Q(name__icontains=query) | Q(location__icontains=query) | Q(item__name__icontains=query) | Q(item__contents__icontains=query)
+            ).distinct()
+        else:
+            return self
+
+class SchoolManager(models.Manager):
+    def get_queryset(self):
+        return SchoolQuerySet(self.model, using=self._db)
+
+    def search(self,query):
+        return self.get_queryset().search(query)
+
 class School(models.Model):
     owner = models.ForeignKey(User)
     name = models.CharField(max_length=120, validators=[validate_name])
@@ -15,6 +31,8 @@ class School(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
     slug = models.SlugField(null=True,blank=True)
+
+    objects = SchoolManager()
 
     # Change the objectname with name of school (in django admin)
     def __str__(self):
