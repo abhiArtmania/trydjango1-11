@@ -10,6 +10,7 @@ User = settings.AUTH_USER_MODEL
 class SchoolQuerySet(models.query.QuerySet):
     def search(self,query):
         if query:
+            query = query.strip()
             Q = models.Q
             return self.filter(
                 Q(name__icontains=query) | Q(location__icontains=query) | Q(item__name__icontains=query) | Q(item__contents__icontains=query)

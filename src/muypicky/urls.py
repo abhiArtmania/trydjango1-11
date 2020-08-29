@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.views import LoginView
+from profiles.views import ProfileFollowUnfollow
 
 from schools.views import (
     HomeView,
@@ -28,6 +29,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^profile-follow/$', ProfileFollowUnfollow.as_view(), name='follow'),
     url(r'^logout/$', LogoutUser.as_view(), name='logout'),
     url(r'^about/', AboutView.as_view(), name='about'),
     url(r'^contact/', ContactView.as_view(), name='contact'),

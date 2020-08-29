@@ -4,10 +4,13 @@
 {% endblock head_title %}
 {% block content %}
 <h3>User: {{title}}</h3>
+{% if request.user.is_authenticated %}
+  {% include 'profiles/snippets/follow_form.html' with username=user.username is_following=is_following %}
+{% endif %}
 <form class='form search-form' method="GET" action='.'>
   <input type='text' placeholder="Search..." name='searchText' value='{{request.GET.searchText}}'/>
   <button class="btn btn-primary search-button" type="submit">Search</button>
-  <a class="btn btn-secondary clear-button" href='{{request.path}}'>Clear</a>
+  <a class="btn btn-secondary clear-button" href='{{request.path}}' style='{% if not request.GET.searchText %} background:#dadada; pointer-events: none; {% endif %}'>Clear</a>
 </form>
 <hr/>
 {% if schools %}
