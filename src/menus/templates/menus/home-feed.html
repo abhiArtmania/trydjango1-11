@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+  {% block title %}
+    Canteen Items | {{block.super}}
+  {% endblock %}
+  {% block content %}
+    <h2>Canteens of users whome you are following <small style="font-size:15px;"><a href='{% url "menus:create" %}'>Add your Canteens</a></small></h2>
+
+    <ul>
+      {% if object_list %}
+        {% for obj in object_list %}
+
+        <div class='row'>
+          <div class="col-sm-12">
+            <div class='card card-default' style='padding:10px;'>
+              <span><b>User name</b> : <a href='{% url "profiles:detail" username=obj.user.username %}'>{{obj.user.username}}</a></span>
+              <span><b>Canteen name</b> : {{obj.name}}</span>
+              <span><b>School name</b> : {{obj.school}}</span>
+              <div id="accordion">
+                <div class="card">
+                  <div class="card-header" id="heading-contain-{{obj.name}}">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-contain-{{obj.name}}" aria-expanded="true" aria-controls="collapse-contain-{{obj.name}}">
+                        Items in stock
+                      </button>
+                    </h5>
+                  </div>
+
+                  <div id="collapse-contain-{{obj.name}}" class="collapse show" aria-labelledby="heading-contain-{{obj.name}}" data-parent="#accordion">
+                    <div class="card-body">
+                      {% for content in obj.get_contents %}
+                        <span class='badge badge-success'>
+                          {{content}}
+                        </span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header" id="heading-exclude-{{obj.name}}">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-exclude-{{obj.name}}" aria-expanded="false" aria-controls="collapse-exclude-{{obj.name}}">
+                        Items out of stock
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="collapse-exclude-{{obj.name}}" class="collapse" aria-labelledby="heading-exclude-{{obj.name}}" data-parent="#accordion">
+                    <div class="card-body">
+                      {% for exclude in obj.get_excludes %}
+                        <span class='badge badge-danger'>{{exclude}}</span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <li>
+          <small>
+            No feed found !
+          </small>
+        </li>
+      {% endif %}
+    </ul>
+  {% endblock %}

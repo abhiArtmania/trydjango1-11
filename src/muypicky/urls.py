@@ -25,6 +25,8 @@ from schools.views import (
     LogoutUser
 )
 
+from menus.views import HomeView
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', HomeView.as_view(), name='home'),
