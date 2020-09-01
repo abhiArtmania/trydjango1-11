@@ -26,7 +26,18 @@ SECRET_KEY = 'brx7+v#)cl43(7v^-of)4syp8hh5pb&8-e+2u%!-az5@8qrh84'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# -*- coding: utf-8 -*-
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'youremail@gmail.com'
+EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Your Name <you@email.com>'
 
+ADMINS = {
+    ('You','you@email.com')
+}
+MANAGERS = ADMINS
 
 # Application definition
 
