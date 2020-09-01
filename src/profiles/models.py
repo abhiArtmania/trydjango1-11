@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.db.models.signals import post_save
+from .utils import code_generator
 
 User = settings.AUTH_USER_MODEL
 
@@ -20,6 +21,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User)
     followers = models.ManyToManyField(User, related_name='is_following', blank=True)
     # following = models.ManyToManyField(User, related_name='following', blank=True)
+    # activation_key = models.CharField(max_length=120, blank=True, null=True)
     activated = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -28,6 +30,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def send_activation_email(self):
+        print("Activation")
+        if not  self.activated:
+            self.activation_key = code_generator()
+            self.save()
+            send_mail = False
+            return send_mail
 
 def post_save_user_receiver(sender, instance, created, *args, **kwargs):
     if created:

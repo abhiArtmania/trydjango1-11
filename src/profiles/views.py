@@ -1,13 +1,24 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import View, DetailView
+from django.views.generic import View, DetailView, CreateView
 from django.contrib.auth import get_user_model
 from django.http import Http404
 from schools.models import School
 from menus.models import Item
 from .models import Profile
+from .forms import RegisterForm
 
 User = get_user_model()
+
+class RegisterForm(CreateView):
+    form_class = RegisterForm
+    template_name = 'registration/register.html'
+    success_url = '/login/'
+
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated():
+            return redirect("/logout/")
+        return super(RegisterForm,self).dispatch(*args, **kwargs)
 
 class ProfileFollowUnfollow(LoginRequiredMixin,View):
     def post(self, request, *args, **kwargs):
