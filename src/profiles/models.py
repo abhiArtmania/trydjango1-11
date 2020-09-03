@@ -43,7 +43,6 @@ class Profile(models.Model):
             message = f'Activate your account here: {path_}'
             recipient_list = [self.user.email]
             html_message = f'<p>Activate your account here: {path_}</p>'
-            print(html_message)
             # sent_mail = send_mail(
             #     subject,
             #     message,

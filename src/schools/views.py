@@ -14,14 +14,14 @@ import random
 class HomeView(TemplateView):
     template_name = 'home.html'
     def get_context_data(self, *args, **kwargs):
-        context = super(HomeView,self).get_context_data(*args, **kwargs)
+        context = super(HomeView, self).get_context_data(*args, **kwargs)
         num = random.randint(0,1000)
         context = {
-            "UserExist":True,
-            "username":'Abhishek Singh',
-            'age':num,
-            'familyMembers':['Ashish','Shashikala','Ashok']
+            "AnonymUserExist":True,
+            "poc_description":'This poc covers all the basic functionality of simple website like routing, Registeration, Login, Logout, session management, CRUD operations and other basicsself. In this project user can create their account and He/she can create the schools and number of cantee under respective schoolsself.User can follow/Unfollow any other users and he/she can see the latest activity performed by user whome they are following.',
+            'apps':['school','menus (Canteens)','profile']
         }
+        print(context)
         return context
 
 # About view

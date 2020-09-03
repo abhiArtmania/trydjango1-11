@@ -1,29 +1,26 @@
 {% extends "base.html" %}
-{% block title %}{{block.super}} {% endblock %}
+{% block title %}
+  {{block.super}}
+{% endblock %}
 {% block content %}
-{{block.super}}
-{% if UserExist %}
-  <h1>User Information:</h1>
-  <p>My name is {{username}}</p>
-  <p>This is random number - {{age}}</p>
-  {% if age|divisibleby:"2" %}
-    <p>Age id even</p>
+  {{block.super}}
+  {% if AnonymUserExist %}
+    <p>{{poc_description}}</p>
+  {% else %}
+    <p>No User Found</p>
   {% endif %}
-{% else %}
-  <p>No User Found</p>
-{% endif %}
 
-<h1>Family members:</h1>
-{% if familyMembers %}
-<ul>
-  {% for members in familyMembers %}
-    <li
-      key="{{members}}"
-      class="{% cycle 'odd' 'even' %}"
-    >
-      {{members}}
-    </li>
-  {% endfor %}
-</ul>
-{% endif %}
+  <h1>Apps under this project:</h1>
+  {% if apps %}
+  <ul>
+    {% for app in apps %}
+      <li
+        key="{{app}}"
+        class="{% cycle 'odd' 'even' %}"
+      >
+        {{app}}
+      </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 {% endblock %}
