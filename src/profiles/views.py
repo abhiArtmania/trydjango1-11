@@ -31,7 +31,7 @@ class RegisterForm(CreateView):
     success_url = '/login/'
 
     def dispatch(self, *args, **kwargs):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             return redirect("/logout/")
         return super(RegisterForm,self).dispatch(*args, **kwargs)
 
@@ -59,9 +59,9 @@ class ProfileDetailView(DetailView):
     def get_context_data(self,*args,**kwargs):
         context = super(ProfileDetailView,self).get_context_data(*args,**kwargs)
         owner = self.get_object()
-        print(self.request.user.is_authenticated())
+        print(self.request.user.is_authenticated)
         is_following = False
-        if self.request.user.is_authenticated() and owner.profile in self.request.user.is_following.all():
+        if self.request.user.is_authenticated and owner.profile in self.request.user.is_following.all():
             is_following = True
         context['is_following'] = is_following
         name = owner.username

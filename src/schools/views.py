@@ -82,7 +82,7 @@ class SearchSchoolDetailView(LoginRequiredMixin, DetailView):
 #     form = SchoolCreateForm(request.POST or None)
 #     errors = None
 #     if form.is_valid():
-#         if request.user.is_authenticated():
+#         if request.user.is_authenticated:
 #             instance = form.save(commit=False)
 #             instance.owner = request.user
 #             instance.save()
