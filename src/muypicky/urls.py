@@ -37,7 +37,7 @@ urlpatterns = [
     url(r'^logout/$', LogoutUser.as_view(), name='logout'),
     url(r'^about/', AboutView.as_view(), name='about'),
     url(r'^contact/', ContactView.as_view(), name='contact'),
-    url(r'^school/', include('schools.urls',namespace='schools')),
-    url(r'^items/', include('menus.urls',namespace='menus')),
-    url(r'^profile/', include('profiles.urls', namespace='profiles'))
+    url(r'^school/', include(('schools.urls','schools'),namespace='schools')),
+    url(r'^items/', include(('menus.urls','menus'),namespace='menus')),
+    url(r'^profile/', include(('profiles.urls','profiles'), namespace='profiles'))
 ]

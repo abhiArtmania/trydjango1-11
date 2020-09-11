@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from .utils import code_generator
 from django.core.mail import send_mail
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 User = settings.AUTH_USER_MODEL
 
@@ -20,7 +20,7 @@ class ProfileManager(models.Manager):
         return profile_, is_following
 
 class Profile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
     followers = models.ManyToManyField(User, related_name='is_following', blank=True)
     # following = models.ManyToManyField(User, related_name='following', blank=True)
     activation_key = models.CharField(max_length=120, blank=True, null=True)

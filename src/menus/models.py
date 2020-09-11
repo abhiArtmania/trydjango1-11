@@ -1,12 +1,12 @@
 from django.conf import settings
 from django.db import models
 from schools.models import School
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 class Item(models.Model):
     # associations
-    user        = models.ForeignKey(settings.AUTH_USER_MODEL)
-    school      = models.ForeignKey(School)
+    user        = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    school      = models.ForeignKey(School, on_delete=models.CASCADE)
     # item stuff
     name        = models.CharField(max_length=120)
     contents    = models.TextField(help_text='Separate each item by comma')

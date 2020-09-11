@@ -3,7 +3,7 @@ from django.db.models.signals import pre_save, post_save
 from .utils import unique_slug_generator
 from .validators import validate_name, validate_location
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 User = settings.AUTH_USER_MODEL
 
@@ -26,7 +26,7 @@ class SchoolManager(models.Manager):
         return self.get_queryset().search(query)
 
 class School(models.Model):
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=120, validators=[validate_name])
     location = models.CharField(max_length=120, null=True, blank=True, validators=[validate_location])
     timestamp = models.DateTimeField(auto_now_add=True)
